@@ -27,43 +27,68 @@ client.on('message', (channel, tags, message, self) => {
             const colors = [
                 {
                     name: 'red',
-                    code: '65535'
+                    bri: '254',
+                    code: '64999',
+                    sat: '254'
                 },
                 {
                     name: 'blue',
-                    code: '46920'
+                    bri: '254',
+                    code: '46920',
+                    sat: '254'
                 },
                 {
                     name: 'green',
-                    code: '25500'
+                    bri: '254',
+                    code: '23209',
+                    sat: '254'
                 },
                 {
                     name: 'pink',
-                    code: '56101'
+                    bri: '254',
+                    code: '59359',
+                    sat: '254'
+                },
+                {
+                    name: 'purple',
+                    bri: '254',
+                    code: '48593',
+                    sat: '254'
                 },
                 {
                     name: 'orange',
-                    code: '5538'
+                    bri: '254',
+                    code: '3274',
+                    sat: '254'
                 },
                 {
                     name: 'yellow',
-                    code: '9765'
+                    bri: '254',
+                    code: '11298',
+                    sat: '254'
                 },
                 {
                     name: 'white',
-                    code: '41435'
+                    bri: '254',
+                    code: '41435',
+                    sat: '77'
                 },
             ];
 
             if (!args.length) return;
+
             if (args == 'pink' || args == 'purple' || args == 'orange' || args == 'blue' || args == 'green' || args == 'yellow' || args == 'red' || args == 'white') {
+                
                 const color = args.shift();
 
                 for (let i = 0; i < colors.length; i+= 1) {
 
                     if (colors[i].name == color) {
+                        const briCode = colors[i].bri;
                         const colorCode = colors[i].code;
-                        v3.discovery.nupnpSearch(colorCode)
+                        const satCode = colors[i].sat;
+
+                        v3.discovery.nupnpSearch(briCode, colorCode, satCode)
                             .then(searchResults => {
                                 const host = searchResults[0].ipaddress;
                                 return v3.api.createLocal(host).connect(USERNAME);
@@ -72,7 +97,9 @@ client.on('message', (channel, tags, message, self) => {
                                 // Using a LightState object to build the desired state
                                 const state = new LightState()
                                     .on()
+                                    .bri(briCode)
                                     .hue(colorCode)
+                                    .sat(satCode)
                                 //  .alert('select')
                                 ;
                                 

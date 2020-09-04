@@ -56,7 +56,7 @@ const colors = [
     },
 ];
 
-ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
+ComfyJS.onCommand = (user, command, message, flags, extra) => {
 
     // Custom reward redeem to switch hue light
     if (flags.customReward && command === "hue" ) {
@@ -85,9 +85,7 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
                                 .on()
                                 .bri(briCode)
                                 .hue(colorCode)
-                                .sat(satCode)
-                            //  .alert('select')
-                            ;
+                                .sat(satCode);
                             
                             return api.lights.setLightState(LIGHT_ID, state);
                         })
@@ -103,8 +101,8 @@ ComfyJS.onCommand = ( user, command, message, flags, extra ) => {
     }
 }
 
-ComfyJS.onSub = ( user, command, message, flags, extra ) => {
-    console.log(user + ' Subscribed');
+ComfyJS.onRaid = (user, viewers, extra) => {
+    console.log(user + ' Raided');
     v3.discovery.nupnpSearch()
         .then(searchResults => {
             const host = searchResults[0].ipaddress;
@@ -118,6 +116,37 @@ ComfyJS.onSub = ( user, command, message, flags, extra ) => {
             ;
             
             return api.lights.setLightState(LIGHT_ID, state);
+        })
+        .then(result => {
+            console.log(`Raidedddd ${result}`);
+        });
+}
+
+ComfyJS.onSub = (user, command, message, flags, extra) => {
+    console.log(user + ' Subscribed');
+    v3.discovery.nupnpSearch()
+        .then(searchResults => {
+            const host = searchResults[0].ipaddress;
+            return v3.api.createLocal(host).connect(USERNAME);
+        })
+        .then(api => {
+            // Using a LightState object to build the desired state
+            const state = new LightState()
+                .on()
+                .effectColorLoop()
+                .alert('lselect');
+
+            const stateStop = new LightState()
+                .on()
+                .effectNone()
+                .alertNone();
+                
+            return api.lights.setLightState(LIGHT_ID, state)
+            .then(result => {
+                setTimeout(function(){ 
+                    return api.lights.setLightState(LIGHT_ID, stateStop);
+                }, 8000);
+            });
         })
         .then(result => {
             console.log(`Sub done ${result}`);

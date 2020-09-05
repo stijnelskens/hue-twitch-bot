@@ -2,6 +2,7 @@ require('dotenv').config();
 const ComfyJS = require("comfy.js");
 const v3 = require('node-hue-api').v3;
 const LightState = v3.lightStates.LightState;
+const GroupLightState = v3.lightStates.GroupLightState;
 const USERNAME = process.env.USERNAME, LIGHT_ID = process.env.ID;
 
 // Colors
@@ -81,13 +82,13 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                         })
                         .then(api => {
                             // Using a LightState object to build the desired state
-                            const state = new LightState()
+                            const groupState = new GroupLightState()
                                 .on()
                                 .bri(briCode)
                                 .hue(colorCode)
                                 .sat(satCode);
                             
-                            return api.lights.setLightState(LIGHT_ID, state);
+                            return api.groups.setGroupState(2, groupState);
                         })
                         .then(result => {
                             console.log(`Light state change was successful? ${result}`);
@@ -101,7 +102,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
     }
 }
 
-ComfyJS.onRaid = (user, viewers, extra) => {
+ComfyJS.onRaid = (user, command, message, flags, extra) => {
     console.log(user + ' Raided');
     v3.discovery.nupnpSearch()
         .then(searchResults => {
@@ -112,13 +113,23 @@ ComfyJS.onRaid = (user, viewers, extra) => {
             // Using a LightState object to build the desired state
             const state = new LightState()
                 .on()
-                .alert('lselect')
-            ;
-            
-            return api.lights.setLightState(LIGHT_ID, state);
+                .effectColorLoop()
+                .alert('lselect');
+
+            const stateStop = new LightState()
+                .on()
+                .effectNone()
+                .alertNone();
+                
+            return api.lights.setLightState(LIGHT_ID, state)
+            .then(result => {
+                setTimeout(function(){ 
+                    return api.lights.setLightState(LIGHT_ID, stateStop);
+                }, 8000);
+            });
         })
         .then(result => {
-            console.log(`Raidedddd ${result}`);
+            console.log(`Raid done ${result}`);
         });
 }
 
@@ -150,6 +161,37 @@ ComfyJS.onSub = (user, command, message, flags, extra) => {
         })
         .then(result => {
             console.log(`Sub done ${result}`);
+        });
+}
+
+ComfyJS.onCheer = (user, command, message, flags, extra) => {
+    console.log(user + ' Cheered');
+    v3.discovery.nupnpSearch()
+        .then(searchResults => {
+            const host = searchResults[0].ipaddress;
+            return v3.api.createLocal(host).connect(USERNAME);
+        })
+        .then(api => {
+            // Using a LightState object to build the desired state
+            const state = new LightState()
+                .on()
+                .effectColorLoop()
+                .alert('lselect');
+
+            const stateStop = new LightState()
+                .on()
+                .effectNone()
+                .alertNone();
+                
+            return api.lights.setLightState(LIGHT_ID, state)
+            .then(result => {
+                setTimeout(function(){ 
+                    return api.lights.setLightState(LIGHT_ID, stateStop);
+                }, 8000);
+            });
+        })
+        .then(result => {
+            console.log(`Cheer done? ${result}`);
         });
 }
 

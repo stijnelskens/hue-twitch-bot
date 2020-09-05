@@ -3,7 +3,12 @@ const ComfyJS = require("comfy.js");
 const v3 = require('node-hue-api').v3;
 const LightState = v3.lightStates.LightState;
 const GroupLightState = v3.lightStates.GroupLightState;
-const USERNAME = process.env.USERNAME, LIGHT_ID = process.env.ID;
+const USERNAME = process.env.USERNAME, LIGHT_ID = process.env.SINGLELIGHTID, GROUP_ID = process.env.GROUPID ;
+const bridgeConnect = v3.discovery.nupnpSearch()
+.then(searchResults => {
+    const host = searchResults[0].ipaddress;
+    return v3.api.createLocal(host).connect(USERNAME);
+})
 
 // Colors
 const colors = [
@@ -75,11 +80,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                     const colorCode = colors[i].code;
                     const satCode = colors[i].sat;
 
-                    v3.discovery.nupnpSearch(briCode, colorCode, satCode)
-                        .then(searchResults => {
-                            const host = searchResults[0].ipaddress;
-                            return v3.api.createLocal(host).connect(USERNAME);
-                        })
+                    bridgeConnect
                         .then(api => {
                             // Using a LightState object to build the desired state
                             const groupState = new GroupLightState()
@@ -104,11 +105,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
 
 ComfyJS.onRaid = (user, command, message, flags, extra) => {
     console.log(user + ' Raided');
-    v3.discovery.nupnpSearch()
-        .then(searchResults => {
-            const host = searchResults[0].ipaddress;
-            return v3.api.createLocal(host).connect(USERNAME);
-        })
+    bridgeConnect
         .then(api => {
             // Using a LightState object to build the desired state
             const state = new LightState()
@@ -135,11 +132,7 @@ ComfyJS.onRaid = (user, command, message, flags, extra) => {
 
 ComfyJS.onSub = (user, command, message, flags, extra) => {
     console.log(user + ' Subscribed');
-    v3.discovery.nupnpSearch()
-        .then(searchResults => {
-            const host = searchResults[0].ipaddress;
-            return v3.api.createLocal(host).connect(USERNAME);
-        })
+    bridgeConnect
         .then(api => {
             // Using a LightState object to build the desired state
             const state = new LightState()
@@ -166,11 +159,7 @@ ComfyJS.onSub = (user, command, message, flags, extra) => {
 
 ComfyJS.onCheer = (user, command, message, flags, extra) => {
     console.log(user + ' Cheered');
-    v3.discovery.nupnpSearch()
-        .then(searchResults => {
-            const host = searchResults[0].ipaddress;
-            return v3.api.createLocal(host).connect(USERNAME);
-        })
+    bridgeConnect
         .then(api => {
             // Using a LightState object to build the desired state
             const state = new LightState()

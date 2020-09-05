@@ -1,9 +1,9 @@
 # Hue Twitch Bot
 
-Let the viewers control your hue lamp with twitch chat.
-NOTE: Only works if you have a Bridge.
+Let the viewers control your Philips Hue lamps with twitch chat.<br/>
+*NOTE:* Only works if you have a Bridge.
 
-#### Commands: 
+#### Color Commands: 
 - !hue blue
 - !hue green
 - !hue orange
@@ -32,7 +32,7 @@ yarn start
  - ~~Use on redeem~~
  - ~~Alert/flash on follow/subscribe~~
  - Access multiple lights instead of one.
-  - Used with setLightState and setGroupState.
+   - Used with setLightState and setGroupState.
 
 
 License

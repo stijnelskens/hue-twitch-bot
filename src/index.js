@@ -3,7 +3,7 @@ const ComfyJS = require("comfy.js");
 const v3 = require('node-hue-api').v3;
 const LightState = v3.lightStates.LightState;
 const GroupLightState = v3.lightStates.GroupLightState;
-const USERNAME = process.env.USERNAME, LIGHT_ID = process.env.SINGLELIGHTID, GROUP_ID = process.env.GROUPID ;
+const USERNAME = process.env.USERNAME, LIGHT_ID = process.env.SINGLELIGHTID, GROUP_ID = process.env.GROUPID;
 const bridgeConnect = v3.discovery.nupnpSearch()
 .then(searchResults => {
     const host = searchResults[0].ipaddress;

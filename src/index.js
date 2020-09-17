@@ -1,13 +1,14 @@
-require('dotenv').config();
+const config = require('./config.js');
 const ComfyJS = require("comfy.js");
 const v3 = require('node-hue-api').v3;
 const LightState = v3.lightStates.LightState;
 const GroupLightState = v3.lightStates.GroupLightState;
-const USERNAME = process.env.USERNAME, LIGHT_ID = process.env.SINGLELIGHTID, GROUP_ID = process.env.GROUPID;
+const Scene = v3.Scene;
+const SceneLightState = v3.lightStates.SceneLightState;
 const bridgeConnect = v3.discovery.nupnpSearch()
 .then(searchResults => {
     const host = searchResults[0].ipaddress;
-    return v3.api.createLocal(host).connect(USERNAME);
+    return v3.api.createLocal(host).connect(config.config.bridgeId);
 })
 
 // Colors
@@ -89,7 +90,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                                 .hue(colorCode)
                                 .sat(satCode);
                             
-                            return api.groups.setGroupState(2, groupState);
+                            return api.groups.setGroupState(config.config.groupId, groupState);
                         })
                         .then(result => {
                             console.log(`Light state change was successful? ${result}`);
@@ -97,14 +98,33 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                     break;
                 }
             }
+        } else if (message == 'sunset' || message == 'tropical') {
+
+            const scene = message;
+
+            bridgeConnect
+                .then(api => {
+                    // Using a LightState object to build the desired state
+                    const sceneLightState = new SceneLightState()
+                        .on()
+                        .brightness(100);
+                    
+                    return api.scenes.updateLightState('7O6cVVb7zn1kcJW', config.config.groupId, sceneLightState);
+                })
+                .then(result => {
+                    console.log(`Updated LightState values in scene:`)
+                    console.log(JSON.stringify(result, null, 2));
+                });
+
         } else {
             return;
-        }  
+        }
     }
 }
 
 ComfyJS.onRaid = (user, command, message, flags, extra) => {
     console.log(user + ' Raided');
+
     bridgeConnect
         .then(api => {
             // Using a LightState object to build the desired state
@@ -118,10 +138,10 @@ ComfyJS.onRaid = (user, command, message, flags, extra) => {
                 .effectNone()
                 .alertNone();
                 
-            return api.lights.setLightState(LIGHT_ID, state)
+            return api.lights.setLightState(config.config.lightId, state)
             .then(result => {
                 setTimeout(function(){ 
-                    return api.lights.setLightState(LIGHT_ID, stateStop);
+                    return api.lights.setLightState(config.config.lightId, stateStop);
                 }, 8000);
             });
         })
@@ -132,6 +152,7 @@ ComfyJS.onRaid = (user, command, message, flags, extra) => {
 
 ComfyJS.onSub = (user, command, message, flags, extra) => {
     console.log(user + ' Subscribed');
+    
     bridgeConnect
         .then(api => {
             // Using a LightState object to build the desired state
@@ -145,10 +166,10 @@ ComfyJS.onSub = (user, command, message, flags, extra) => {
                 .effectNone()
                 .alertNone();
                 
-            return api.lights.setLightState(LIGHT_ID, state)
+            return api.lights.setLightState(config.config.lightId, state)
             .then(result => {
                 setTimeout(function(){ 
-                    return api.lights.setLightState(LIGHT_ID, stateStop);
+                    return api.lights.setLightState(config.config.lightId, stateStop);
                 }, 8000);
             });
         })
@@ -172,10 +193,10 @@ ComfyJS.onCheer = (user, command, message, flags, extra) => {
                 .effectNone()
                 .alertNone();
                 
-            return api.lights.setLightState(LIGHT_ID, state)
+            return api.lights.setLightState(config.config.lightId, state)
             .then(result => {
                 setTimeout(function(){ 
-                    return api.lights.setLightState(LIGHT_ID, stateStop);
+                    return api.lights.setLightState(config.config.lightId, stateStop);
                 }, 8000);
             });
         })
@@ -184,4 +205,4 @@ ComfyJS.onCheer = (user, command, message, flags, extra) => {
         });
 }
 
-ComfyJS.Init(process.env.CHANNEL);
+ComfyJS.Init(config.config.channelName);

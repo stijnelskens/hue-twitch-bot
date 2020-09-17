@@ -1,7 +1,7 @@
 {
   "name": "hue-twitch-bot",
   "version": "0.0.1",
-  "description": "Let the viewers control your hue lamp with Twitch Chat with a custom reward",
+  "description": "Let the viewers control your hue lights with Twitch Chat with a custom reward",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js"
@@ -24,7 +24,6 @@
   "homepage": "https://github.com/stijnelskens/hue-twitch-bot#readme",
   "dependencies": {
     "comfy.js": "^1.1.3",
-    "dotenv": "^8.2.0",
     "node-hue-api": "^4.0.9"
   }
 }

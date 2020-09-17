@@ -18,7 +18,7 @@ Let the viewers control your Philips Hue lamps with twitch chat.<br/>
 ```
 yarn install
 ```
-Add and fill in the `.env` file.
+Copy `config.example.js` to `config.js` and update accordingly.
 
 ## Run
 

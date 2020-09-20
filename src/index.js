@@ -3,8 +3,6 @@ const ComfyJS = require("comfy.js");
 const v3 = require('node-hue-api').v3;
 const LightState = v3.lightStates.LightState;
 const GroupLightState = v3.lightStates.GroupLightState;
-const Scene = v3.Scene;
-const SceneLightState = v3.lightStates.SceneLightState;
 const bridgeConnect = v3.discovery.nupnpSearch()
 .then(searchResults => {
     const host = searchResults[0].ipaddress;
@@ -66,7 +64,7 @@ const colors = [
 ComfyJS.onCommand = (user, command, message, flags, extra) => {
 
     // Custom reward redeem to switch hue light
-    if (flags.customReward && command === "hue" ) {
+    if (flags.customReward && command === "hue1") {
 
         if (!message.length) return;
 
@@ -84,13 +82,13 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                     bridgeConnect
                         .then(api => {
                             // Using a LightState object to build the desired state
-                            const groupState = new GroupLightState()
+                            const lightState = new LightState()
                                 .on()
                                 .bri(briCode)
                                 .hue(colorCode)
                                 .sat(satCode);
                             
-                            return api.groups.setGroupState(config.config.groupId, groupState);
+                            return api.lights.setLightState(config.config.lightId, lightState);
                         })
                         .then(result => {
                             console.log(`Light state change was successful? ${result}`);
@@ -98,24 +96,41 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                     break;
                 }
             }
-        } else if (message == 'sunset' || message == 'tropical') {
+        } else {
+            return;
+        }
+    } else if (flags.customReward && command === "hue2") {
 
-            const scene = message;
+        if (!message.length) return;
 
-            bridgeConnect
-                .then(api => {
-                    // Using a LightState object to build the desired state
-                    const sceneLightState = new SceneLightState()
-                        .on()
-                        .brightness(100);
-                    
-                    return api.scenes.updateLightState('7O6cVVb7zn1kcJW', config.config.groupId, sceneLightState);
-                })
-                .then(result => {
-                    console.log(`Updated LightState values in scene:`)
-                    console.log(JSON.stringify(result, null, 2));
-                });
+        if (message == 'pink' || message == 'purple' || message == 'orange' || message == 'blue' || message == 'green' || message == 'yellow' || message == 'red' || message == 'white') {
+                
+            const color = message;
 
+            for (let i = 0; i < colors.length; i+= 1) {
+
+                if (colors[i].name == color) {
+                    const briCode = colors[i].bri;
+                    const colorCode = colors[i].code;
+                    const satCode = colors[i].sat;
+
+                    bridgeConnect
+                        .then(api => {
+                            // Using a LightState object to build the desired state
+                            const lightState = new LightState()
+                                .on()
+                                .bri(briCode)
+                                .hue(colorCode)
+                                .sat(satCode);
+                            
+                            return api.lights.setLightState(config.config.lightId2, lightState);
+                        })
+                        .then(result => {
+                            console.log(`Light state change was successful? ${result}`);
+                        });
+                    break;
+                }
+            }
         } else {
             return;
         }
@@ -127,21 +142,20 @@ ComfyJS.onRaid = (user, command, message, flags, extra) => {
 
     bridgeConnect
         .then(api => {
-            // Using a LightState object to build the desired state
-            const state = new LightState()
+            const groupState = new GroupLightState()
                 .on()
                 .effectColorLoop()
                 .alert('lselect');
 
-            const stateStop = new LightState()
+            const groupStateStop = new GroupLightState()
                 .on()
                 .effectNone()
                 .alertNone();
                 
-            return api.lights.setLightState(config.config.lightId, state)
+            return api.groups.setGroupState(config.config.groupId, groupState)
             .then(result => {
                 setTimeout(function(){ 
-                    return api.lights.setLightState(config.config.lightId, stateStop);
+                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
                 }, 8000);
             });
         })
@@ -155,21 +169,20 @@ ComfyJS.onSub = (user, command, message, flags, extra) => {
     
     bridgeConnect
         .then(api => {
-            // Using a LightState object to build the desired state
-            const state = new LightState()
+            const groupState = new GroupLightState()
                 .on()
                 .effectColorLoop()
                 .alert('lselect');
 
-            const stateStop = new LightState()
+            const groupStateStop = new GroupLightState()
                 .on()
                 .effectNone()
                 .alertNone();
                 
-            return api.lights.setLightState(config.config.lightId, state)
+            return api.groups.setGroupState(config.config.groupId, groupState)
             .then(result => {
                 setTimeout(function(){ 
-                    return api.lights.setLightState(config.config.lightId, stateStop);
+                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
                 }, 8000);
             });
         })
@@ -182,21 +195,20 @@ ComfyJS.onCheer = (user, command, message, flags, extra) => {
     console.log(user + ' Cheered');
     bridgeConnect
         .then(api => {
-            // Using a LightState object to build the desired state
-            const state = new LightState()
+            const groupState = new GroupLightState()
                 .on()
                 .effectColorLoop()
                 .alert('lselect');
 
-            const stateStop = new LightState()
+            const groupStateStop = new GroupLightState()
                 .on()
                 .effectNone()
                 .alertNone();
                 
-            return api.lights.setLightState(config.config.lightId, state)
+            return api.groups.setGroupState(config.config.groupId, groupState)
             .then(result => {
                 setTimeout(function(){ 
-                    return api.lights.setLightState(config.config.lightId, stateStop);
+                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
                 }, 8000);
             });
         })

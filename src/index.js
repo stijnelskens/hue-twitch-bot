@@ -89,9 +89,6 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                                 .sat(satCode);
                             
                             return api.lights.setLightState(config.config.lightId, lightState);
-                        })
-                        .then(result => {
-                            console.log(`Light state change was successful? ${result}`);
                         });
                     break;
                 }
@@ -99,6 +96,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
         } else {
             return;
         }
+    // target the second light
     } else if (flags.customReward && command === "hue2") {
 
         if (!message.length) return;
@@ -124,9 +122,6 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                                 .sat(satCode);
                             
                             return api.lights.setLightState(config.config.lightId2, lightState);
-                        })
-                        .then(result => {
-                            console.log(`Light state change was successful? ${result}`);
                         });
                     break;
                 }
@@ -138,8 +133,6 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
 }
 
 ComfyJS.onRaid = (user, command, message, flags, extra) => {
-    console.log(user + ' Raided');
-
     bridgeConnect
         .then(api => {
             const groupState = new GroupLightState()
@@ -158,15 +151,10 @@ ComfyJS.onRaid = (user, command, message, flags, extra) => {
                     return api.groups.setGroupState(config.config.groupId, groupStateStop);
                 }, 8000);
             });
-        })
-        .then(result => {
-            console.log(`Raid done ${result}`);
         });
 }
 
 ComfyJS.onSub = (user, command, message, flags, extra) => {
-    console.log(user + ' Subscribed');
-    
     bridgeConnect
         .then(api => {
             const groupState = new GroupLightState()
@@ -185,14 +173,10 @@ ComfyJS.onSub = (user, command, message, flags, extra) => {
                     return api.groups.setGroupState(config.config.groupId, groupStateStop);
                 }, 8000);
             });
-        })
-        .then(result => {
-            console.log(`Sub done ${result}`);
         });
 }
 
 ComfyJS.onCheer = (user, command, message, flags, extra) => {
-    console.log(user + ' Cheered');
     bridgeConnect
         .then(api => {
             const groupState = new GroupLightState()
@@ -211,9 +195,6 @@ ComfyJS.onCheer = (user, command, message, flags, extra) => {
                     return api.groups.setGroupState(config.config.groupId, groupStateStop);
                 }, 8000);
             });
-        })
-        .then(result => {
-            console.log(`Cheer done? ${result}`);
         });
 }
 

@@ -64,7 +64,8 @@ const colors = [
 ComfyJS.onCommand = (user, command, message, flags, extra) => {
 
     // Custom reward redeem to switch hue light
-    if (flags.customReward && command === "hue1") {
+    // if (flags.customReward && command === "hue1") {
+    if (command === "hue1") {
 
         if (!message.length) return;
 
@@ -97,7 +98,8 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
             return;
         }
     // target the second light
-    } else if (flags.customReward && command === "hue2") {
+    // } else if (flags.customReward && command === "hue2") {
+    } else if (command === "hue2") {
 
         if (!message.length) return;
 

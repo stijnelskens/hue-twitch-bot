@@ -134,7 +134,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
     }
 }
 
-ComfyJS.onRaid = (user, command, message, flags, extra) => {
+ComfyJS.onRaid = () => {
     bridgeConnect
         .then(api => {
             const groupState = new GroupLightState()
@@ -156,7 +156,7 @@ ComfyJS.onRaid = (user, command, message, flags, extra) => {
         });
 }
 
-ComfyJS.onSub = (user, command, message, flags, extra) => {
+ComfyJS.onHosted = () => {
     bridgeConnect
         .then(api => {
             const groupState = new GroupLightState()
@@ -178,7 +178,117 @@ ComfyJS.onSub = (user, command, message, flags, extra) => {
         });
 }
 
-ComfyJS.onCheer = (user, command, message, flags, extra) => {
+ComfyJS.onSub = () => {
+    bridgeConnect
+        .then(api => {
+            const groupState = new GroupLightState()
+                .on()
+                .effectColorLoop()
+                .alert('lselect');
+
+            const groupStateStop = new GroupLightState()
+                .on()
+                .effectNone()
+                .alertNone();
+                
+            return api.groups.setGroupState(config.config.groupId, groupState)
+            .then(result => {
+                setTimeout(function(){ 
+                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
+                }, 8000);
+            });
+        });
+}
+
+ComfyJS.onResub = () => {
+    bridgeConnect
+        .then(api => {
+            const groupState = new GroupLightState()
+                .on()
+                .effectColorLoop()
+                .alert('lselect');
+
+            const groupStateStop = new GroupLightState()
+                .on()
+                .effectNone()
+                .alertNone();
+                
+            return api.groups.setGroupState(config.config.groupId, groupState)
+            .then(result => {
+                setTimeout(function(){ 
+                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
+                }, 8000);
+            });
+        });
+}
+
+ComfyJS.onSubGift = () => {
+    bridgeConnect
+        .then(api => {
+            const groupState = new GroupLightState()
+                .on()
+                .effectColorLoop()
+                .alert('lselect');
+
+            const groupStateStop = new GroupLightState()
+                .on()
+                .effectNone()
+                .alertNone();
+                
+            return api.groups.setGroupState(config.config.groupId, groupState)
+            .then(result => {
+                setTimeout(function(){ 
+                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
+                }, 8000);
+            });
+        });
+}
+
+ComfyJS.onSubMysteryGift = () => {
+    bridgeConnect
+        .then(api => {
+            const groupState = new GroupLightState()
+                .on()
+                .effectColorLoop()
+                .alert('lselect');
+
+            const groupStateStop = new GroupLightState()
+                .on()
+                .effectNone()
+                .alertNone();
+                
+            return api.groups.setGroupState(config.config.groupId, groupState)
+            .then(result => {
+                setTimeout(function(){ 
+                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
+                }, 8000);
+            });
+        });
+}
+
+ComfyJS.onGiftSubContinue = () => {
+    bridgeConnect
+        .then(api => {
+            const groupState = new GroupLightState()
+                .on()
+                .effectColorLoop()
+                .alert('lselect');
+
+            const groupStateStop = new GroupLightState()
+                .on()
+                .effectNone()
+                .alertNone();
+                
+            return api.groups.setGroupState(config.config.groupId, groupState)
+            .then(result => {
+                setTimeout(function(){ 
+                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
+                }, 8000);
+            });
+        });
+}
+
+ComfyJS.onCheer = () => {
     bridgeConnect
         .then(api => {
             const groupState = new GroupLightState()

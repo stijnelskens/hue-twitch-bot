@@ -131,7 +131,29 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
         } else {
             return;
         }
+    } else if (flags.customReward && command === "party") {
+
+        bridgeConnect
+            .then(api => {
+                const groupState = new GroupLightState()
+                    .on()
+                    .effectColorLoop()
+                    .alert('lselect');
+
+                const groupStateStop = new GroupLightState()
+                    .on()
+                    .effectNone()
+                    .alertNone();
+                    
+                return api.groups.setGroupState(config.config.groupId, groupState)
+                .then(result => {
+                    setTimeout(function(){ 
+                        return api.groups.setGroupState(config.config.groupId, groupStateStop);
+                    }, 8000);
+                });
+            });
     }
+
 }
 
 ComfyJS.onRaid = () => {

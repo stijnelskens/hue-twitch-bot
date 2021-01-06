@@ -69,7 +69,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
 
         if (!message.length) return;
 
-        if (message == 'pink' || message == 'purple' || message == 'orange' || message == 'blue' || message == 'green' || message == 'yellow' || message == 'red' || message == 'white') {
+        if (['pink', 'purple', 'orange', 'blue', 'green', 'yellow', 'red', 'white'].includes(message)) {
                 
             const color = message;
 
@@ -103,7 +103,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
 
         if (!message.length) return;
 
-        if (message == 'pink' || message == 'purple' || message == 'orange' || message == 'blue' || message == 'green' || message == 'yellow' || message == 'red' || message == 'white') {
+        if (['pink', 'purple', 'orange', 'blue', 'green', 'yellow', 'red', 'white'].includes(message)) {
                 
             const color = message;
 

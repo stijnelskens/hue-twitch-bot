@@ -1,4 +1,5 @@
 const config = require('./config.js');
+const colors = require('./colors.js');
 const ComfyJS = require("comfy.js");
 const v3 = require('node-hue-api').v3;
 const LightState = v3.lightStates.LightState;
@@ -8,58 +9,6 @@ const bridgeConnect = v3.discovery.nupnpSearch()
     const host = searchResults[0].ipaddress;
     return v3.api.createLocal(host).connect(config.config.bridgeId);
 })
-
-// Colors
-const colors = [
-    {
-        name: 'red',
-        bri: '254',
-        code: '64999',
-        sat: '254'
-    },
-    {
-        name: 'blue',
-        bri: '254',
-        code: '46920',
-        sat: '254'
-    },
-    {
-        name: 'green',
-        bri: '254',
-        code: '23209',
-        sat: '254'
-    },
-    {
-        name: 'pink',
-        bri: '254',
-        code: '59359',
-        sat: '254'
-    },
-    {
-        name: 'purple',
-        bri: '254',
-        code: '48593',
-        sat: '254'
-    },
-    {
-        name: 'orange',
-        bri: '254',
-        code: '3274',
-        sat: '254'
-    },
-    {
-        name: 'yellow',
-        bri: '254',
-        code: '11298',
-        sat: '254'
-    },
-    {
-        name: 'white',
-        bri: '254',
-        code: '41435',
-        sat: '77'
-    },
-];
 
 ComfyJS.onCommand = (user, command, message, flags, extra) => {
 
@@ -71,7 +20,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
 
         if (['pink', 'purple', 'orange', 'blue', 'green', 'yellow', 'red', 'white'].includes(message)) {
                 
-            colors.find(color => {
+            colors.colors.find(color => {
                 if (color.name == message) {
                     const briCode = color.bri;
                     const colorCode = color.code;
@@ -102,7 +51,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
 
         if (['pink', 'purple', 'orange', 'blue', 'green', 'yellow', 'red', 'white'].includes(message)) {
                 
-            colors.find(color => {
+            colors.colors.find(color => {
                 if (color.name == message) {
                     const briCode = color.bri;
                     const colorCode = color.code;

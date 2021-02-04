@@ -7,7 +7,7 @@ const GroupLightState = v3.lightStates.GroupLightState;
 const bridgeConnect = v3.discovery.nupnpSearch()
 .then(searchResults => {
     const host = searchResults[0].ipaddress;
-    return v3.api.createLocal(host).connect(config.config.bridgeId);
+    return v3.api.createLocal(host).connect(config.bridgeId);
 })
 
 ComfyJS.onCommand = (user, command, message, flags, extra) => {
@@ -20,7 +20,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
 
         if (['pink', 'purple', 'orange', 'blue', 'green', 'yellow', 'red', 'white'].includes(message)) {
                 
-            colors.colors.find(color => {
+            colors.find(color => {
                 if (color.name == message) {
                     const briCode = color.bri;
                     const colorCode = color.code;
@@ -35,7 +35,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                                 .hue(colorCode)
                                 .sat(satCode);
                             
-                            return api.lights.setLightState(config.config.lightId, lightState);
+                            return api.lights.setLightState(config.lightId, lightState);
                         });
                 }
                 return;
@@ -51,7 +51,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
 
         if (['pink', 'purple', 'orange', 'blue', 'green', 'yellow', 'red', 'white'].includes(message)) {
                 
-            colors.colors.find(color => {
+            colors.find(color => {
                 if (color.name == message) {
                     const briCode = color.bri;
                     const colorCode = color.code;
@@ -66,7 +66,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                                 .hue(colorCode)
                                 .sat(satCode);
                             
-                            return api.lights.setLightState(config.config.lightId2, lightState);
+                            return api.lights.setLightState(config.lightId2, lightState);
                         });
                 }
                 return;
@@ -88,10 +88,10 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                     .effectNone()
                     .alertNone();
                     
-                return api.groups.setGroupState(config.config.groupId, groupState)
+                return api.groups.setGroupState(config.groupId, groupState)
                 .then(result => {
                     setTimeout(function(){ 
-                        return api.groups.setGroupState(config.config.groupId, groupStateStop);
+                        return api.groups.setGroupState(config.groupId, groupStateStop);
                     }, 8000);
                 });
             });
@@ -112,10 +112,10 @@ ComfyJS.onRaid = () => {
                 .effectNone()
                 .alertNone();
                 
-            return api.groups.setGroupState(config.config.groupId, groupState)
+            return api.groups.setGroupState(config.groupId, groupState)
             .then(result => {
                 setTimeout(function(){ 
-                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
+                    return api.groups.setGroupState(config.groupId, groupStateStop);
                 }, 8000);
             });
         });
@@ -134,10 +134,10 @@ ComfyJS.onHosted = () => {
                 .effectNone()
                 .alertNone();
                 
-            return api.groups.setGroupState(config.config.groupId, groupState)
+            return api.groups.setGroupState(config.groupId, groupState)
             .then(result => {
                 setTimeout(function(){ 
-                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
+                    return api.groups.setGroupState(config.groupId, groupStateStop);
                 }, 8000);
             });
         });
@@ -156,10 +156,10 @@ ComfyJS.onSub = () => {
                 .effectNone()
                 .alertNone();
                 
-            return api.groups.setGroupState(config.config.groupId, groupState)
+            return api.groups.setGroupState(config.groupId, groupState)
             .then(result => {
                 setTimeout(function(){ 
-                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
+                    return api.groups.setGroupState(config.groupId, groupStateStop);
                 }, 8000);
             });
         });
@@ -178,10 +178,10 @@ ComfyJS.onResub = () => {
                 .effectNone()
                 .alertNone();
                 
-            return api.groups.setGroupState(config.config.groupId, groupState)
+            return api.groups.setGroupState(config.groupId, groupState)
             .then(result => {
                 setTimeout(function(){ 
-                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
+                    return api.groups.setGroupState(config.groupId, groupStateStop);
                 }, 8000);
             });
         });
@@ -200,10 +200,10 @@ ComfyJS.onSubGift = () => {
                 .effectNone()
                 .alertNone();
                 
-            return api.groups.setGroupState(config.config.groupId, groupState)
+            return api.groups.setGroupState(config.groupId, groupState)
             .then(result => {
                 setTimeout(function(){ 
-                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
+                    return api.groups.setGroupState(config.groupId, groupStateStop);
                 }, 8000);
             });
         });
@@ -222,10 +222,10 @@ ComfyJS.onSubMysteryGift = () => {
                 .effectNone()
                 .alertNone();
                 
-            return api.groups.setGroupState(config.config.groupId, groupState)
+            return api.groups.setGroupState(config.groupId, groupState)
             .then(result => {
                 setTimeout(function(){ 
-                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
+                    return api.groups.setGroupState(config.groupId, groupStateStop);
                 }, 8000);
             });
         });
@@ -244,10 +244,10 @@ ComfyJS.onGiftSubContinue = () => {
                 .effectNone()
                 .alertNone();
                 
-            return api.groups.setGroupState(config.config.groupId, groupState)
+            return api.groups.setGroupState(config.groupId, groupState)
             .then(result => {
                 setTimeout(function(){ 
-                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
+                    return api.groups.setGroupState(config.groupId, groupStateStop);
                 }, 8000);
             });
         });
@@ -266,13 +266,13 @@ ComfyJS.onCheer = () => {
                 .effectNone()
                 .alertNone();
                 
-            return api.groups.setGroupState(config.config.groupId, groupState)
+            return api.groups.setGroupState(config.groupId, groupState)
             .then(result => {
                 setTimeout(function(){ 
-                    return api.groups.setGroupState(config.config.groupId, groupStateStop);
+                    return api.groups.setGroupState(config.groupId, groupStateStop);
                 }, 8000);
             });
         });
 }
 
-ComfyJS.Init(config.config.channelName);
+ComfyJS.Init(config.channelName);

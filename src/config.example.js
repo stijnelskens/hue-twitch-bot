@@ -5,4 +5,4 @@ const config = {
   channelName: 'channel-name',
 };
 
-module.exports.config = config;
+module.exports = config;

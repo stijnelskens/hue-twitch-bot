@@ -71,14 +71,11 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
 
         if (['pink', 'purple', 'orange', 'blue', 'green', 'yellow', 'red', 'white'].includes(message)) {
                 
-            const color = message;
-
-            for (let i = 0; i < colors.length; i+= 1) {
-
-                if (colors[i].name == color) {
-                    const briCode = colors[i].bri;
-                    const colorCode = colors[i].code;
-                    const satCode = colors[i].sat;
+            colors.find(color => {
+                if (color.name == message) {
+                    const briCode = color.bri;
+                    const colorCode = color.code;
+                    const satCode = color.sat;
 
                     bridgeConnect
                         .then(api => {
@@ -91,9 +88,9 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                             
                             return api.lights.setLightState(config.config.lightId, lightState);
                         });
-                    break;
                 }
-            }
+                return;
+            });
         } else {
             return;
         }
@@ -105,14 +102,11 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
 
         if (['pink', 'purple', 'orange', 'blue', 'green', 'yellow', 'red', 'white'].includes(message)) {
                 
-            const color = message;
-
-            for (let i = 0; i < colors.length; i+= 1) {
-
-                if (colors[i].name == color) {
-                    const briCode = colors[i].bri;
-                    const colorCode = colors[i].code;
-                    const satCode = colors[i].sat;
+            colors.find(color => {
+                if (color.name == message) {
+                    const briCode = color.bri;
+                    const colorCode = color.code;
+                    const satCode = color.sat;
 
                     bridgeConnect
                         .then(api => {
@@ -125,9 +119,9 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                             
                             return api.lights.setLightState(config.config.lightId2, lightState);
                         });
-                    break;
                 }
-            }
+                return;
+            });
         } else {
             return;
         }

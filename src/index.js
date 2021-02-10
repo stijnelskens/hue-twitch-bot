@@ -1,6 +1,7 @@
+require('dotenv').config();
 const config = require('./config.js');
 const colors = require('./colors.js');
-const ComfyJS = require("comfy.js");
+const ComfyJS = require('comfy.js');
 const v3 = require('node-hue-api').v3;
 const LightState = v3.lightStates.LightState;
 const GroupLightState = v3.lightStates.GroupLightState;
@@ -14,7 +15,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
 
     // Custom reward redeem to switch hue light
     // if (flags.customReward && command === "hue1") {
-    if (command === "hue1") {
+    if (command == 'hue1' || command == 'lamp1') {
 
         if (!message.length) return;
 
@@ -22,18 +23,15 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                 
             colors.find(color => {
                 if (color.name == message) {
-                    const briCode = color.bri;
-                    const colorCode = color.code;
-                    const satCode = color.sat;
+
+                    const rgbCode = color.rgb;
 
                     bridgeConnect
                         .then(api => {
                             // Using a LightState object to build the desired state
                             const lightState = new LightState()
                                 .on()
-                                .bri(briCode)
-                                .hue(colorCode)
-                                .sat(satCode);
+                                .rgb(rgbCode);
                             
                             return api.lights.setLightState(config.lightId, lightState);
                         });
@@ -41,11 +39,11 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                 return;
             });
         } else {
-            return;
+            ComfyJS.Say(`@${user}, command is niet volledig, gebruik '!lampen' voor meer uitleg! laks1Willfix`);
         }
     // target the second light
     // } else if (flags.customReward && command === "hue2") {
-    } else if (command === "hue2") {
+    } else if (command == 'hue2' || command == 'lamp2') {
 
         if (!message.length) return;
 
@@ -53,18 +51,15 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                 
             colors.find(color => {
                 if (color.name == message) {
-                    const briCode = color.bri;
-                    const colorCode = color.code;
-                    const satCode = color.sat;
+
+                    const rgbCode = color.rgb;
 
                     bridgeConnect
                         .then(api => {
                             // Using a LightState object to build the desired state
                             const lightState = new LightState()
                                 .on()
-                                .bri(briCode)
-                                .hue(colorCode)
-                                .sat(satCode);
+                                .rgb(rgbCode);
                             
                             return api.lights.setLightState(config.lightId2, lightState);
                         });
@@ -72,9 +67,9 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                 return;
             });
         } else {
-            return;
+            ComfyJS.Say(`@${user}, command is niet volledig, gebruik '!lampen' voor meer uitleg! laks1Willfix`);
         }
-    } else if (flags.customReward && command === "party") {
+    } else if (flags.customReward && command === 'party') {
 
         bridgeConnect
             .then(api => {
@@ -90,13 +85,19 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                     
                 return api.groups.setGroupState(config.groupId, groupState)
                 .then(result => {
+                    console.log(result);
                     setTimeout(function(){ 
+                        console.log(result);
                         return api.groups.setGroupState(config.groupId, groupStateStop);
-                    }, 8000);
+                    }, 10000);
                 });
             });
-    }
+    } else if (command == 'drop') {
 
+        if (extra.sinceLastCommand.any > 60000) {
+            ComfyJS.Say('!drop laks1Willfix');
+        }
+    }
 }
 
 ComfyJS.onRaid = () => {
@@ -116,7 +117,7 @@ ComfyJS.onRaid = () => {
             .then(result => {
                 setTimeout(function(){ 
                     return api.groups.setGroupState(config.groupId, groupStateStop);
-                }, 8000);
+                }, 10000);
             });
         });
 }
@@ -138,7 +139,7 @@ ComfyJS.onHosted = () => {
             .then(result => {
                 setTimeout(function(){ 
                     return api.groups.setGroupState(config.groupId, groupStateStop);
-                }, 8000);
+                }, 10000);
             });
         });
 }
@@ -160,7 +161,7 @@ ComfyJS.onSub = () => {
             .then(result => {
                 setTimeout(function(){ 
                     return api.groups.setGroupState(config.groupId, groupStateStop);
-                }, 8000);
+                }, 10000);
             });
         });
 }
@@ -182,7 +183,7 @@ ComfyJS.onResub = () => {
             .then(result => {
                 setTimeout(function(){ 
                     return api.groups.setGroupState(config.groupId, groupStateStop);
-                }, 8000);
+                }, 10000);
             });
         });
 }
@@ -204,7 +205,7 @@ ComfyJS.onSubGift = () => {
             .then(result => {
                 setTimeout(function(){ 
                     return api.groups.setGroupState(config.groupId, groupStateStop);
-                }, 8000);
+                }, 10000);
             });
         });
 }
@@ -226,7 +227,7 @@ ComfyJS.onSubMysteryGift = () => {
             .then(result => {
                 setTimeout(function(){ 
                     return api.groups.setGroupState(config.groupId, groupStateStop);
-                }, 8000);
+                }, 10000);
             });
         });
 }
@@ -248,7 +249,7 @@ ComfyJS.onGiftSubContinue = () => {
             .then(result => {
                 setTimeout(function(){ 
                     return api.groups.setGroupState(config.groupId, groupStateStop);
-                }, 8000);
+                }, 10000);
             });
         });
 }
@@ -270,9 +271,9 @@ ComfyJS.onCheer = () => {
             .then(result => {
                 setTimeout(function(){ 
                     return api.groups.setGroupState(config.groupId, groupStateStop);
-                }, 8000);
+                }, 10000);
             });
         });
 }
 
-ComfyJS.Init(config.channelName);
+ComfyJS.Init(process.env.TWITCHUSER, process.env.OAUTH);

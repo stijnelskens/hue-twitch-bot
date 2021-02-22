@@ -10,8 +10,8 @@ For more documentation check out https://github.com/instafluff/ComfyJS and https
 ```
 yarn install
 ```
-Copy `config.example.js` to `config.js` and update accordingly.
-and copy `.env.example` to `.env` and update accordingly to if you want to send chat messages. More info here https://github.com/instafluff/ComfyJS#sending-chat-messages
+Copy `config.example.js` to `config.js` and update accordingly.<br/>
+Also copy `.env.example` to `.env` and update accordingly to if you want to send chat messages. More info here https://github.com/instafluff/ComfyJS#sending-chat-messages
 
 If you want to use it with custom rewards do the following:
 Create a custom reward so the viewers can use channel points to change your lights.
@@ -33,7 +33,7 @@ currently the lights listen to following events:
 - onSubGift
 - onSubMysteryGift
 - onGiftSubContinue
-- onCheer
+- onCheer<br/>
 With the effect of .effectColorLoop()
 
 #### Color Commands for viewers: 
@@ -45,7 +45,7 @@ currently writting for 2 lights
 - `!hue1 purple` or `!hue2 purple`
 - `!hue1 red` or `!hue2 red`
 - `!hue1 white` or `!hue2 white`
-- `!hue1 yellow` or `!hue2 yellow`
+- `!hue1 yellow` or `!hue2 yellow`<br/>
 Also added a dutch command `!lamp`.
 Colors can be found in `src/colors.js`.
 

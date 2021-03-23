@@ -39,7 +39,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                 return;
             });
         } else {
-            ComfyJS.Say(`@${user}, command is niet volledig, gebruik '!lampen' voor meer uitleg! laks1Willfix`);
+            ComfyJS.Say(`@${user}, command is niet volledig, gebruik '!lampen' voor meer uitleg! SeemsGood`);
         }
     // target the second light
     // } else if (flags.customReward && command === "hue2") {
@@ -67,7 +67,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                 return;
             });
         } else {
-            ComfyJS.Say(`@${user}, command is niet volledig, gebruik '!lampen' voor meer uitleg! laks1Willfix`);
+            ComfyJS.Say(`@${user}, command is niet volledig, gebruik '!lampen' voor meer uitleg! SeemsGood`);
         }
     } else if (flags.customReward && command === 'party') {
 
@@ -95,7 +95,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
     } else if (command == 'drop') {
 
         if (extra.sinceLastCommand.any > 60000) {
-            ComfyJS.Say('!drop laks1Willfix');
+            ComfyJS.Say('!drop KappaRoss');
         }
     }
 }

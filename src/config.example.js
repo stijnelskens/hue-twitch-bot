@@ -1,8 +1,9 @@
 const config = {
   bridgeId: '',
   lightId: '',
+  lightId2: '',
   groupId: '',
-  channelName: 'channel-name',
+  channelName: '',
 };
 
 module.exports = config;

@@ -25,7 +25,6 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                     const lightId = config.lightId;
                     return changeLights(rgbCode, lightId);
                 }
-                return;
             });
         } else {
             ComfyJS.Say(`@${user}, command is niet volledig, gebruik '!lampen' voor meer uitleg! SeemsGood`);
@@ -42,7 +41,6 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                     const lightId = config.lightId2;
                     return changeLights(rgbCode, lightId);
                 }
-                return;
             });
         } else {
             ComfyJS.Say(`@${user}, command is niet volledig, gebruik '!lampen' voor meer uitleg! SeemsGood`);

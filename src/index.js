@@ -23,7 +23,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                 if (color.name == message) {
                     const rgbCode = color.rgb;
                     const lightId = config.lightId;
-                    changeLights(rgbCode, lightId);                    
+                    return changeLights(rgbCode, lightId);
                 }
                 return;
             });
@@ -40,7 +40,7 @@ ComfyJS.onCommand = (user, command, message, flags, extra) => {
                 if (color.name == message) {
                     const rgbCode = color.rgb;
                     const lightId = config.lightId2;
-                    changeLights(rgbCode, lightId);   
+                    return changeLights(rgbCode, lightId);
                 }
                 return;
             });
@@ -93,35 +93,32 @@ ComfyJS.onCheer = () => {
 ComfyJS.Init(process.env.TWITCHUSER, process.env.OAUTH);
 
 function alertLight() {
-    bridgeConnect
-        .then(api => {
-            const groupState = new GroupLightState()
-                .on()
-                .effectColorLoop()
-                .alert('lselect');
+    bridgeConnect.then(api => {
+        const groupState = new GroupLightState()
+            .on()
+            .effectColorLoop()
+            .alert('lselect');
 
-            const groupStateStop = new GroupLightState()
-                .on()
-                .effectNone()
-                .alertNone();
-                
-            return api.groups.setGroupState(config.groupId, groupState)
-            .then(result => {
-                setTimeout(function(){ 
-                    return api.groups.setGroupState(config.groupId, groupStateStop);
-                }, 10000);
-            });
+        const groupStateStop = new GroupLightState()
+            .on()
+            .effectNone()
+            .alertNone();
+            
+        return api.groups.setGroupState(config.groupId, groupState)
+        .then(result => {
+            setTimeout(function(){ 
+                return api.groups.setGroupState(config.groupId, groupStateStop);
+            }, 10000);
         });
+    });
 }
 
 function changeLights(rgbCode, lightId) {
-    bridgeConnect
-        .then(api => {
-            // Using a LightState object to build the desired state
-            const lightState = new LightState()
-                .on()
-                .rgb(rgbCode);
-            
-            return api.lights.setLightState(lightId, lightState);
-        });
+    bridgeConnect.then(api => {
+        // Using a LightState object to build the desired state
+        const lightState = new LightState()
+            .on()
+            .rgb(rgbCode);
+        return api.lights.setLightState(lightId, lightState);
+    });
 }

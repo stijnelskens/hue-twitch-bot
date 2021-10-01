@@ -90,7 +90,7 @@ ComfyJS.onCheer = () => {
 
 ComfyJS.Init(process.env.TWITCHUSER, process.env.OAUTH);
 
-function alertLight() {
+const alertLight = () => {
     bridgeConnect.then(api => {
         const groupState = new GroupLightState()
             .on()
@@ -111,7 +111,7 @@ function alertLight() {
     });
 }
 
-function changeLights(rgbCode, lightId) {
+const changeLights = (rgbCode, lightId) => {
     bridgeConnect.then(api => {
         // Using a LightState object to build the desired state
         const lightState = new LightState()

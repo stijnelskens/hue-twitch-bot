@@ -4,6 +4,7 @@ Let the viewers control your Philips Hue lights with twitch chat.<br/>
 _NOTE:_ Only works if you have a Bridge. (You need your bridgeID)
 
 For more documentation check out https://github.com/instafluff/ComfyJS and https://github.com/peter-murray/node-hue-api
+
 <img width="491" alt="Screenshot 2021-12-20 at 00 23 35" src="https://user-images.githubusercontent.com/12715277/146694768-79dd5322-0f4b-41c3-bdcc-657b84a9fdd9.png">
 
 ## Setup
